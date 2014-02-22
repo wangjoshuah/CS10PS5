@@ -1,7 +1,7 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.io.FileReader;
 import java.util.*
 ;
 
@@ -54,6 +54,25 @@ public class BaconGraph {
 	public void addMovie(String idNumber, String title) {
 		Movie movie = new Movie(title);
 		movieIDs.put(idNumber, movie);
+	}
+
+	/**
+	 * processes txt documents
+	 * @param args
+	 */
+	public void fileReader() throws Exception{
+		BufferedReader reader = new BufferedReader(new FileReader("/inputs/actors.txt"));
+		String line = null;
+		while ((line = reader.readLine()) != null) {
+		    String[] parts = line.split("|");
+		    addActor(parts[0], parts[1]);
+		}
+		BufferedReader reader2 = new BufferedReader(new FileReader("/inputs/movies.txt"));
+		String line2 = null;
+		while ((line2 = reader2.readLine()) != null) {
+		    String[] parts = line2.split("|");
+		    addMovie(parts[0], parts[1]);
+		}
 	}
 
 	/**
