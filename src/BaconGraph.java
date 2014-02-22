@@ -73,8 +73,23 @@ public class BaconGraph {
 		    String[] parts = line2.split("|");
 		    addMovie(parts[0], parts[1]);
 		}
+		BufferedReader reader3 = new BufferedReader(new FileReader("/inputs/movies-actors.txt"));
+		String line3 = null;
+		while ((line3 = reader3.readLine()) != null) {
+			String[] parts = line3.split("|");
+			
+		}
 	}
 
+	/**
+	 * 
+	 */
+	public void graphCreator() {
+		for(String actor: actorNames.keySet()) {
+			
+		}
+	}
+	
 	/**
 	 * @param args
 	 */
