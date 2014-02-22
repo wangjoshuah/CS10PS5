@@ -57,43 +57,52 @@ public class BaconGraph {
 	}
 
 	/**
-	 * processes txt documents
-	 * @param args
-	 */
-	public void fileReader() throws Exception{
-		BufferedReader reader = new BufferedReader(new FileReader("/inputs/actors.txt"));
-		String line = null;
-		while ((line = reader.readLine()) != null) {
-		    String[] parts = line.split("|");
-		    addActor(parts[0], parts[1]);
-		}
-		BufferedReader reader2 = new BufferedReader(new FileReader("/inputs/movies.txt"));
-		String line2 = null;
-		while ((line2 = reader2.readLine()) != null) {
-		    String[] parts = line2.split("|");
-		    addMovie(parts[0], parts[1]);
-		}
-		BufferedReader reader3 = new BufferedReader(new FileReader("/inputs/movies-actors.txt"));
-		String line3 = null;
-		while ((line3 = reader3.readLine()) != null) {
-			String[] parts = line3.split("|");
-			
-		}
-	}
-
-	/**
 	 * 
 	 */
-	public void graphCreator() {
-		for(String actor: actorNames.keySet()) {
-			
+	public void testGraphCreator() throws Exception{
+		//create our test Graph		
+		
+		//input actors text
+		BufferedReader actorInput = new BufferedReader(new FileReader("inputs/actorsTest.txt"));
+		String line = new String();
+		String[] parts = new String[2];
+		while ((line = actorInput.readLine()) != null) {
+		    parts = line.split("\\|");
+		    addActor(parts[0], parts[1]);
 		}
+		
+		//input movies
+		BufferedReader movieInput = new BufferedReader(new FileReader("inputs/moviesTest.txt"));
+		while ((line = movieInput.readLine()) != null) {
+		    parts = line.split("\\|");
+		    addMovie(parts[0], parts[1]);
+		}
+		
+		//get their relations
+		BufferedReader relationsInput = new BufferedReader(new FileReader("inputs/movie-actorsTest.txt"));
+		while ((line = relationsInput.readLine()) != null) {
+			parts = line.split("\\|");
+			Movie film = movieIDs.get(parts[0]); //get the movie
+			film.addActor(actorIDs.get(parts[1])); //add the actor to the cast list
+		}
+
+		System.out.println(this.actorIDs.size());
+		System.out.println(this.movieIDs.size());
+		System.out.println("end");
 	}
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		BaconGraph testGraph = new BaconGraph();
+		try {
+			testGraph.testGraphCreator();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }
