@@ -103,6 +103,21 @@ public class BaconGraph {
 			e.printStackTrace();
 		}
 		
+		String command = "";
+		Scanner input = new Scanner(System.in);
+		System.out.println("To quit the program, type return in answer to a question.");
+		
+		while (true) {
+			System.out.println("Enter the name of an actor:");
+			command = input.nextLine();
+			if(testGraph.actorNames.containsKey(command)) {
+				System.out.println("Found!");
+			}
+			if(command.equals("return")) {
+				System.out.println("Bye");
+				break;
+			}
+		}
 	}
 
 }
