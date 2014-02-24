@@ -48,29 +48,25 @@ public class BaconGraph {
 		Actor source  = searchByName("Kevin Bacon"); //get Kevin Bacon
 		source.setBaconNumber(0); //set Kevin Bacon's bacon number to be 0
 		source.setBaconLink(source); //Kevin Bacon is his own link
-		
+
 		Queue<Actor> searchQueue = new LinkedList<Actor>(); //queue of actors we need to search
 		searchQueue.add(source); //add kevin bacon in
 		Set<Actor> visitedActors = new HashSet<Actor>(); //create a list of actors we've visited
+
 		while (!searchQueue.isEmpty()) { //until the search queue is empty
 			Actor query = searchQueue.poll(); //get the next thing we need to look at
 			visitedActors.add(query); //add it to our list of visited actors
 			Set<Actor> adjacencies = query.getAdjacentActors(); //get the adjacencies
 			for (Actor adjacency: adjacencies) { //for all adjacent actors
-				if (!visitedActors.contains(adjacency)) { //if we haven't looked at them yet
+				if (!visitedActors.contains(adjacency) && !searchQueue.contains(adjacency)) { //if we haven't looked at them yet and we don't plan on it
 					searchQueue.add(adjacency); //add them to our search queue
 					adjacency.setBaconNumber(query.getBaconNumber() + 1); //set their bacon number
 					adjacency.setBaconLink(query); //as well as their bacon path and movie
 				}
 			}
 		}
-		
-		//test lines
-		for (Actor star : actorIDs.values()) {
-			System.out.println(star.getName() + "'s Bacon Number is " + star.getBaconNumber());
-		}
 	}
-	
+
 	/**
 	 * Add an actor to our map of actors
 	 * @param idNumber 	use the id number from the data
@@ -131,16 +127,12 @@ public class BaconGraph {
 			Movie film = movieIDs.get(parts[0]); //get the movie
 			film.addActor(actorIDs.get(parts[1])); //add the actor to the cast list
 		}
-		
+
 		for (Movie film : movieIDs.values()) {
 			film.linkActors(); //connect the actors to each other
 		}
-
-		System.out.println(this.actorIDs.size());
-		System.out.println(this.movieIDs.size());
-		System.out.println("end");
 	}
-	
+
 	public void fullGraphCreator() throws Exception{
 		//create our test Graph		
 
@@ -167,24 +159,25 @@ public class BaconGraph {
 			Movie film = movieIDs.get(parts[0]); //get the movie
 			film.addActor(actorIDs.get(parts[1])); //add the actor to the cast list
 		}
-		
+
 		for (Movie film : movieIDs.values()) {
 			film.linkActors(); //connect the actors to each other
 		}
-
-		System.out.println(this.actorIDs.size());
-		System.out.println(this.movieIDs.size());
-		System.out.println("end");
 	}
-	
+
 	public void getBaconInfo(String name) { //print out the bacon info for a star
 		Actor star = searchByName(name); //get the star
-		System.out.println(star.getName() + "'s number is " + star.getBaconNumber());
-			while(!star.getName().equals("Kevin Bacon")) {
+		if (star.getBaconNumber() == -1) { //if they are not connected
+			System.out.println(star.getName() + " is not connected to Kevin Bacon");
+		}
+		else { //if they are
+			System.out.println(star.getName() + "'s number is " + star.getBaconNumber());
+			while(!star.getName().equals("Kevin Bacon")) { //print til we get KB
 				Actor target = star.getBaconLink();
 				System.out.println(star.getName() + " appeared in " + star.getBaconMovie() + " with " + target.getName());
 				star = target;
 			}
+		}
 	}
 
 	/**
@@ -193,12 +186,13 @@ public class BaconGraph {
 	public static void main(String[] args) {
 		BaconGraph bGraph = new BaconGraph();
 		try {
-			bGraph.testGraphCreator();
+//			bGraph.testGraphCreator();
+			bGraph.fullGraphCreator();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		bGraph.createBaconGraph(); //set the bacon info for each actor
 
 		String command = "";
@@ -209,12 +203,14 @@ public class BaconGraph {
 			System.out.println("Enter the name of an actor:");
 			command = input.nextLine();
 			if(bGraph.actorNames.containsKey(command)) {
-				System.out.println("Found!");
 				bGraph.getBaconInfo(command);
 			}
-			if(command.equals("return")) {
+			else if(command.equals("return")) {
 				System.out.println("Bye");
 				break;
+			}
+			else {
+				System.out.println(command + " is not found in our list");
 			}
 		}
 	}

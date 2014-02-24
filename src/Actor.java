@@ -18,6 +18,7 @@ public class Actor {
 		baconLink = null;
 		movieLinks = new HashMap<Actor, Movie>();
 		baconMovie = null;
+		baconNumber = -1;
 	}
 	
 	public String getName() {
@@ -44,7 +45,7 @@ public class Actor {
 		return baconMovie;
 	}
 
-	public void add(Movie m)
+	public void addMovie(Movie m)
 	{
 		movies.add(m);
 	}
@@ -81,5 +82,9 @@ public class Actor {
 			}
 		}
 		return adjacentActors; //return our list of adjacent actors
+	}
+	
+	public String toString() {
+		return name;
 	}
 }

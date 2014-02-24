@@ -26,12 +26,17 @@ public class Movie {
 	
 	public void linkActors() {
 		for (Actor star: actors) { //for each actor in the cast list
+			star.addMovie(this); //add this movie in the stars' movies
 			for (Actor coStar: actors) { //get all other actors
 				if (star != coStar) { //if they are different people
 					star.addCoStar(this, coStar); //add their friendship through this movie
 				}
 			}
 		}
+	}
+	
+	public String toString() {
+		return name;
 	}
 
 }
