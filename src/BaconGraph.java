@@ -126,6 +126,10 @@ public class BaconGraph {
 			Movie film = movieIDs.get(parts[0]); //get the movie
 			film.addActor(actorIDs.get(parts[1])); //add the actor to the cast list
 		}
+		
+		for (Movie film : movieIDs.values()) {
+			film.linkActors(); //connect the actors to each other
+		}
 
 		System.out.println(this.actorIDs.size());
 		System.out.println(this.movieIDs.size());

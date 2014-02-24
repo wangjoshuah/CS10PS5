@@ -49,6 +49,10 @@ public class Actor {
 		movies.add(m);
 	}
 	
+	public void addCoStar(Movie film, Actor coStar) {
+		movieLinks.put(coStar, film);
+	}
+	
 	public void setPrevActor(Actor path) {
 		prevActor = path; //set our previous actor from the path we are coming from
 	}

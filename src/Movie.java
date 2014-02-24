@@ -23,5 +23,15 @@ public class Movie {
 	public void addActor(Actor person) {
 		actors.add(person);
 	}
+	
+	public void linkActors() {
+		for (Actor star: actors) { //for each actor in the cast list
+			for (Actor coStar: actors) { //get all other actors
+				if (star != coStar) { //if they are different people
+					star.addCoStar(this, coStar); //add their friendship through this movie
+				}
+			}
+		}
+	}
 
 }
