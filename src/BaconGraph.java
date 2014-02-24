@@ -64,6 +64,11 @@ public class BaconGraph {
 				}
 			}
 		}
+		
+		//test lines
+		for (Actor star : actorIDs.values()) {
+			System.out.println(star.getName() + "'s Bacon Number is " + star.getBaconNumber());
+		}
 	}
 	
 	/**
@@ -174,7 +179,12 @@ public class BaconGraph {
 	
 	public void getBaconInfo(String name) { //print out the bacon info for a star
 		Actor star = searchByName(name); //get the star
-		System.out.println();
+		System.out.println(star.getName() + "'s number is " + star.getBaconNumber());
+			while(!star.getName().equals("Kevin Bacon")) {
+				Actor target = star.getBaconLink();
+				System.out.println(star.getName() + " appeared in " + star.getBaconMovie() + " with " + target.getName());
+				star = target;
+			}
 	}
 
 	/**
@@ -200,6 +210,7 @@ public class BaconGraph {
 			command = input.nextLine();
 			if(bGraph.actorNames.containsKey(command)) {
 				System.out.println("Found!");
+				bGraph.getBaconInfo(command);
 			}
 			if(command.equals("return")) {
 				System.out.println("Bye");
