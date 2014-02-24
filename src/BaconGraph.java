@@ -136,6 +136,42 @@ public class BaconGraph {
 		System.out.println("end");
 	}
 	
+	public void fullGraphCreator() throws Exception{
+		//create our test Graph		
+
+		//input actors text
+		BufferedReader actorInput = new BufferedReader(new FileReader("inputs/actors.txt"));
+		String line = new String();
+		String[] parts = new String[2];
+		while ((line = actorInput.readLine()) != null) {
+			parts = line.split("\\|");
+			addActor(parts[0], parts[1]);
+		}
+
+		//input movies
+		BufferedReader movieInput = new BufferedReader(new FileReader("inputs/movies.txt"));
+		while ((line = movieInput.readLine()) != null) {
+			parts = line.split("\\|");
+			addMovie(parts[0], parts[1]);
+		}
+
+		//get their relations
+		BufferedReader relationsInput = new BufferedReader(new FileReader("inputs/movie-actors.txt"));
+		while ((line = relationsInput.readLine()) != null) {
+			parts = line.split("\\|");
+			Movie film = movieIDs.get(parts[0]); //get the movie
+			film.addActor(actorIDs.get(parts[1])); //add the actor to the cast list
+		}
+		
+		for (Movie film : movieIDs.values()) {
+			film.linkActors(); //connect the actors to each other
+		}
+
+		System.out.println(this.actorIDs.size());
+		System.out.println(this.movieIDs.size());
+		System.out.println("end");
+	}
+	
 	public void getBaconInfo(String name) { //print out the bacon info for a star
 		Actor star = searchByName(name); //get the star
 		System.out.println();
@@ -145,15 +181,15 @@ public class BaconGraph {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		BaconGraph testGraph = new BaconGraph();
+		BaconGraph bGraph = new BaconGraph();
 		try {
-			testGraph.testGraphCreator();
+			bGraph.testGraphCreator();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		testGraph.createBaconGraph(); //set the bacon info for each actor
+		bGraph.createBaconGraph(); //set the bacon info for each actor
 
 		String command = "";
 		Scanner input = new Scanner(System.in);
@@ -162,7 +198,7 @@ public class BaconGraph {
 		while (true) {
 			System.out.println("Enter the name of an actor:");
 			command = input.nextLine();
-			if(testGraph.actorNames.containsKey(command)) {
+			if(bGraph.actorNames.containsKey(command)) {
 				System.out.println("Found!");
 			}
 			if(command.equals("return")) {
